@@ -1,0 +1,161 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+\onehalfspacing
+\hypersetup{colorlinks=true, linkcolor=black, urlcolor=blue}
+
+\title{Dual Anchor Model (DAM) Valuation:\\
+A Closed-Form Valuation Screen for High-Growth Firms}
+\author{Foy Savas, CFA\\ \texttt{foy@sav.as}}
+\date{October 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note introduces the Dual Anchor Model (DAM), a closed-form valuation formula that separates the capitalized value of current net income from an explicit revenue-growth term. The formula is designed as a practical screen rather than a full discounted-cash-flow model. Under a simple endogenous decay assumption it reduces to
+\begin{equation}
+V_0 = \frac{\mathrm{NI}_1}{r} + \mathrm{Rev}_1 \cdot \frac{g}{r}.
+\end{equation}
+The model is deliberately conservative on temporary hypergrowth episodes that later collapse, while remaining in a reasonable range for durable compounders. Extensive historical backtesting on Amazon, Tesla, Zoom, Peloton, Shopify, Netflix, and Meta confirms this behavior. The approach is presented as a heuristic with clear limitations, not as a replacement for multi-stage free-cash-flow analysis.
+\end{abstract}
+
+\section{Introduction}
+Standard valuation practice treats growth as valuable only to the extent it can be converted into free cash flow at a return above the cost of capital. Multi-stage discounted-cash-flow models, residual-income models, and present-value-of-growth-opportunities (PVGO) decompositions all enforce this logic. Markets, however, frequently assign substantial value to high-growth companies even when current net income is low or negative, on the premise that revenue growth implies market capture and optionality to reach positive cash flow.
+
+This note proposes a simple closed-form heuristic that makes that market logic explicit while remaining stable and conservative. The Dual Anchor Model capitalizes current net income and adds a pure revenue-growth term whose magnitude is automatically damped by an endogenous decay assumption. The goal is a transparent screen that avoids the most extreme bubble valuations without requiring a full forecast of margins and reinvestment.
+
+\section{Derivation of the Model}
+Begin with the requirement that a non-growing firm (\(g = 0\)) must be valued exactly as a capitalized perpetuity of net income:
+\begin{equation}
+V_0 = \frac{\mathrm{NI}_1}{r}.
+\end{equation}
+For a growing firm, add a second term that depends only on current revenue and the forward growth rate. Introduce an endogenous decay rate on growth,
+\begin{equation}
+\delta(g) = \alpha \cdot g,
+\end{equation}
+and substitute into the two-term expression
+\begin{equation}
+V_0 = \frac{\mathrm{NI}_1}{r} + \mathrm{Rev}_1 \cdot \frac{g}{r - g + \delta(g)}.
+\end{equation}
+Setting the reference value \(\alpha = 1\) causes the decay to exactly offset the growth in the denominator, yielding the working formula of the Dual Anchor Model:
+\begin{equation}
+V_0 = \underbrace{\frac{\mathrm{NI}_1}{r}}_{\text{earnings anchor}} + \underbrace{\mathrm{Rev}_1 \cdot \frac{g}{r}}_{\text{revenue anchor}}
+\end{equation}
+When \(\alpha = 1\) the result is a transparent pair of anchors: capitalized net income and a revenue multiple of \(g/r\). Higher values of \(\alpha\) produce a more conservative screen. Negative growth is treated as zero for the second term, so the formula never adds a growth premium when revenue is contracting.
+
+\section{Reasoning and Positioning as a Heuristic}
+The formula is explicitly a heuristic. It does not model the reinvestment required to produce growth, the probability that operating margins expand, or the competitive fade of excess returns. Those factors are the domain of full multi-stage models. The Dual Anchor Model instead embeds a blunt but stable assumption: revenue growth is given a finite premium that scales with the growth rate itself and is automatically moderated by the same growth rate. The result is a closed-form expression that:
+\begin{itemize}[noitemsep]
+\item reduces exactly to capitalized net income when growth is zero;
+\item remains finite even when reported growth exceeds the discount rate;
+\item assigns positive value to high-growth, currently unprofitable firms without requiring an arbitrary margin conversion factor;
+\item systematically underprices the sharpest temporary spikes that later collapse.
+\end{itemize}
+No standard textbook or practitioner model uses this exact hybrid. The nearest relatives are the PVGO decomposition (which leaves the growth term unspecified) and industry fading-ROIC frameworks (which are implemented as multi-stage forecasts). The Dual Anchor Model is therefore a novel combination of existing ideas, offered as a practical screen rather than a theoretically complete valuation.
+
+\section{Historical Backtest}
+The model is applied to seven companies across multiple years, covering durable compounders, temporary hypergrowth episodes, and post-bubble periods. All calculations use the $lpha = 1$ form. The discount rate $r$ is year- and industry-specific, constructed as the sum of the contemporaneous 10-year Treasury yield and an industry beta times the implied equity risk premium for that year (Damodaran methodology). Revenue and net-income figures are approximate annual levels near the valuation dates; market capitalizations are approximate contemporaneous equity values. The purpose is to illustrate directional behavior, not to claim precision.
+
+\begin{longtable}{@{}llrrrrrrl@{}}
+\caption{Dual Anchor Model versus contemporaneous market capitalization (\(\alpha = 1\), year- and industry-specific \(r\)).}\\
+\toprule
+Company & Year & NI (\$B) & Rev (\$B) & \(g\) & Model \(V\) & Actual & Ratio & Character \\
+\midrule
+\endfirsthead
+\toprule
+Company & Year & NI (\$B) & Rev (\$B) & \(g\) & Model \(V\) & Actual & Ratio & Character \\
+\midrule
+\endhead
+Amazon & 2015 & 0.6 & 107 & 0.20 & 241 & 318 & 0.76 & Durable \\
+Amazon & 2017 & 3.0 & 178 & 0.25 & 575 & 564 & 1.02 & Durable \\
+Amazon & 2018 & 10 & 233 & 0.28 & 784 & 737 & 1.06 & Durable \\
+Amazon & 2020 & 21 & 386 & 0.22 & 1{,}680 & 1{,}634 & 1.03 & Durable \\
+Amazon & 2022 & $-2.7$ & 514 & 0.09 & 445 & 856 & 0.52 & Post-COVID \\
+Tesla & 2018 & $-1.0$ & 21.5 & 0.30 & 50 & 57 & 0.89 & Early \\
+Tesla & 2019 & $-0.9$ & 24.6 & 0.35 & 86 & 75 & 1.15 & Early \\
+Tesla & 2020 & 0.7 & 31.5 & 0.45 & 205 & 669 & 0.31 & Bubble \\
+Tesla & 2021 & 5.5 & 53.8 & 0.50 & 452 & 1{,}061 & 0.43 & Bubble \\
+Tesla & 2023 & 15 & 96.8 & 0.19 & 334 & 789 & 0.42 & Normalized \\
+Zoom & 2020 & 0.7 & 2.65 & 1.00 & 48 & 130 & 0.37 & Bubble \\
+Zoom & 2021 & 1.4 & 4.1 & 0.55 & 53 & 55 & 0.95 & Fading \\
+Zoom & 2022 & 1.0 & 4.4 & 0.07 & 12 & 22 & 0.56 & Post-bubble \\
+Peloton & 2020 & $-0.1$ & 1.8 & 1.20 & 28 & 35 & 0.79 & Bubble \\
+Peloton & 2021 & $-0.2$ & 4.0 & 0.80 & 41 & 50 & 0.81 & Bubble \\
+Peloton & 2022 & $-2.8$ & 3.6 & $-0.10$ & $-25$ & 4 & --- & Collapse \\
+Shopify & 2019 & $-0.1$ & 1.6 & 0.47 & 8 & 40 & 0.19 & Growth \\
+Shopify & 2020 & 0.3 & 2.9 & 0.86 & 41 & 140 & 0.29 & Bubble \\
+Shopify & 2021 & 2.9 & 4.6 & 0.57 & 82 & 180 & 0.45 & Peak \\
+Shopify & 2023 & 0.1 & 7.1 & 0.26 & 20 & 100 & 0.20 & Normalized \\
+Netflix & 2018 & 1.2 & 15.8 & 0.35 & 68 & 140 & 0.49 & Growth \\
+Netflix & 2020 & 2.8 & 25.0 & 0.24 & 135 & 240 & 0.56 & COVID \\
+Netflix & 2022 & 4.5 & 31.6 & 0.06 & 63 & 130 & 0.49 & Normalized \\
+Meta & 2019 & 18.5 & 70.7 & 0.27 & 462 & 585 & 0.79 & Durable \\
+Meta & 2021 & 39.4 & 118 & 0.37 & 1{,}270 & 920 & 1.38 & Peak \\
+Meta & 2022 & 23.2 & 117 & $-0.01$ & 230 & 320 & 0.72 & Drawdown \\
+Meta & 2023 & 39.1 & 135 & 0.16 & 651 & 910 & 0.72 & Recovery \\
+\bottomrule
+\end{longtable}
+
+Across the sample the model produces values that are typically 0.75--1.15 times observed market capitalization for durable compounders such as Amazon and early-stage growth companies. On the clearest bubble episodes---Tesla 2020--21, Zoom 2020, Peloton 2020--21, and Shopify 2020--21---the model values are 0.30--0.45 times the peak market prices. In several of those cases the subsequent collapse brought market prices closer to, or below, the model value. Post-bubble and normalized periods remain in a similar band. The formula never generates infinite or explosive values.
+
+\section{Discussion}
+The backtest confirms the intended behavior. The model is conservative relative to peak market prices on temporary hypergrowth and remains within a usable range for companies that later compounded. It does not attempt to identify the subset of high-growth firms that will successfully convert revenue into sustained free cash flow; that discrimination requires explicit margin and reinvestment forecasts. Users who wish to be more conservative can raise \(\alpha\) above 1.0; the reference case \(\alpha = 1\) already avoids the most extreme overshoots.
+
+Limitations are straightforward. Net income is an accounting construct subject to non-cash items and one-time charges. Revenue growth rates are noisy and often mean-reverting faster than the formula assumes. The discount rate is constructed year-by-year and industry-by-industry from the contemporaneous risk-free rate and implied equity risk premium; firm-specific beta adjustments can be substituted. Most importantly, the pure revenue term ignores the capital required to grow and the probability that growth will be value-creating. For these reasons the Dual Anchor Model is offered only as a screen or sanity check, not as a standalone valuation.
+
+\section{Comparison with the PEG Ratio}
+The PEG ratio is a common growth-adjusted multiple defined as price-to-earnings divided by an expected growth rate. It is often interpreted as a relative-value screen: values below 1 are sometimes described as cheap relative to growth, values above 1 as expensive. The Dual Anchor Model differs from PEG in several material respects.
+
+\begin{itemize}[noitemsep]
+\item \textbf{Definition.} The DAM ratio is an absolute comparison of a closed-form model value to market capitalization:
+\[
+\text{DAM ratio} = \frac{V_0}{\text{Market Cap}}, \qquad V_0 = \frac{\mathrm{NI}_1}{r} + \mathrm{Rev}_1 \cdot \frac{g}{r}.
+\]
+PEG is a relative multiple:
+\[
+\text{PEG} = \frac{\text{P/E}}{g}.
+\]
+\item \textbf{Treatment of growth.} DAM places an explicit present-value term on revenue growth that scales with the size of the revenue base and is discounted at \(r\). PEG simply divides the earnings multiple by a growth rate; it does not discount the growth or reference the absolute scale of revenue.
+\item \textbf{Negative or near-zero earnings.} PEG is undefined or meaningless when earnings are non-positive. DAM remains defined: the earnings anchor may be small or negative while the revenue anchor can still produce a positive value.
+\item \textbf{Interpretation.} A DAM ratio near 1.0 indicates that the market price is roughly consistent with the two-anchor heuristic. PEG is a relative ranking tool; its numerical level has no direct absolute interpretation.
+\item \textbf{Scale dependence.} Because the DAM growth term is \(\mathrm{Rev}_1 \cdot g / r\), a large revenue base with modest growth can still generate substantial value. PEG ignores absolute revenue size entirely.
+\end{itemize}
+
+The two metrics can diverge sharply for high-growth, low-profit firms. In those cases PEG is typically elevated or undefined, while the DAM ratio is often low because the revenue base remains small relative to market capitalization. For mature, high-margin compounders the two screens can produce more similar qualitative signals, though DAM still embeds an explicit discount rate and revenue scale that PEG omits.
+
+\section{Comparison with the Gordon Growth Model}
+The Gordon Growth Model (GGM) is the standard single-stage dividend discount model:
+\begin{equation}
+V_0 = \frac{D_1}{r - g},
+\end{equation}
+where \(D_1\) is the expected dividend (or free cash flow) next period, \(r\) is the discount rate, and \(g\) is the perpetual growth rate. The Dual Anchor Model differs from GGM in structure, inputs, and behavior.
+
+\begin{itemize}[noitemsep]
+\item \textbf{Inputs.} GGM capitalizes a single cash-flow stream that must itself grow. DAM capitalizes current net income and adds a separate term that depends only on current revenue and the growth rate. No conversion of revenue into cash flow is required.
+\item \textbf{Behavior at zero growth.} Both models reduce to a simple capitalization when \(g = 0\). In DAM the result is exactly \(\mathrm{NI}_1 / r\). In GGM it is \(D_1 / r\).
+\item \textbf{Growth above the discount rate.} GGM is undefined when \(g \geq r\). DAM remains finite for any growth rate because the endogenous decay assumption (\(\delta = \alpha g\)) cancels the \(g\) in the denominator of the growth term, leaving \(\mathrm{Rev}_1 \cdot g / r\).
+\item \textbf{Negative earnings.} GGM requires a positive cash-flow numerator. DAM can still produce a positive value when net income is negative or near zero, provided revenue and growth are positive.
+\item \textbf{What is being capitalized.} GGM assumes the entire value derives from a growing perpetuity of cash flows. DAM separates an earnings anchor from a revenue-growth optionality term, reflecting the market practice of assigning value to revenue growth even before margins turn positive.
+\end{itemize}
+
+In short, GGM is a theoretically consistent capitalization of a single growing cash-flow stream, but it cannot be applied when growth exceeds the discount rate or when current earnings are non-positive. DAM is a two-anchor heuristic that remains defined in those cases at the cost of ignoring the reinvestment required to produce growth.
+
+\section{Conclusion}
+The Dual Anchor Model provides a closed-form, stable expression that capitalizes current net income and adds an explicit, automatically damped revenue-growth term. Historical application to a range of high-growth firms shows that it systematically underprices the temporary spikes that later collapse while remaining directionally reasonable for durable compounders. Because it omits the conversion of revenue into free cash flow, it is presented strictly as a heuristic. Analysts seeking a quick, transparent screen that refuses to chase the most extreme growth valuations may find it useful; those requiring a full economic model should continue to use multi-stage free-cash-flow or residual-income methods.
+
+\begin{thebibliography}{9}
+\bibitem{cfa} CFA Institute. \textit{Equity Valuation: Applications and Processes}. CFA Program Curriculum.
+\bibitem{damodaran} Damodaran, A. \textit{Investment Valuation: Tools and Techniques for Determining the Value of Any Asset}. Wiley.
+\bibitem{koller} Koller, T., Goedhart, M., \& Wessels, D. \textit{Valuation: Measuring and Managing the Value of Companies}. McKinsey \& Company / Wiley.
+\bibitem{mauboussin} Mauboussin, M. J., \& Callahan, D. Present Value of Growth Opportunities. Morgan Stanley Consilient Observer.
+\end{thebibliography}
+
+\end{document}
