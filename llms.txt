@@ -1,0 +1,20 @@
+# Dual Anchor Model (DAM)
+
+> Closed-form valuation screen for high-growth firms. Capitalizes next-period net income and adds a revenue-growth term that stays finite when growth exceeds the discount rate. A heuristic, not a discounted-cash-flow model and not a buy or sell recommendation.
+
+Reference case α = 1, with g and r as decimals. Negative g is set to zero in the second term only:
+
+V_0 = NI_1 / r + Rev_1 · g / r
+
+Follow the skill for inputs, the general α formula, the output format, and the limits of the screen.
+
+## Apply
+
+- [Dual Anchor Model skill](skills/dual-anchor-model/SKILL.md): Procedure for computing and interpreting a DAM screen.
+- [AGENTS.md](AGENTS.md): Entry point for coding agents in this repository.
+
+## Paper
+
+- [README](README.md): Summary, backtest pattern, and how to point an agent here.
+- [Dual Anchor Model (PDF)](Dual_Anchor_Model.pdf): Derivation, historical backtest, and comparisons with PEG and Gordon growth.
+- [LaTeX source](Dual_Anchor_Model.tex): Source for the note.

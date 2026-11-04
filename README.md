@@ -4,6 +4,34 @@ A closed-form valuation screen for high-growth firms. The full note is [Dual_Anc
 
 Foy Savas, CFA · October 2026 · [foy@sav.as](mailto:foy@sav.as)
 
+## Point an agent at this
+
+Give the agent one of these and ask it to apply the screen. The skill is the procedure: inputs, formula, output, and limits. [llms.txt](llms.txt) is the short index. [AGENTS.md](AGENTS.md) is what coding agents in this repo should read first.
+
+| File | Use |
+| --- | --- |
+| [skills/dual-anchor-model/SKILL.md](skills/dual-anchor-model/SKILL.md) | Canonical skill. Point any agent here. |
+| [llms.txt](llms.txt) | Index in the [llms.txt](https://llmstxt.org/) format. |
+| [AGENTS.md](AGENTS.md) | Repo entry point for coding agents. |
+
+Published copies on GitHub:
+
+- https://raw.githubusercontent.com/foysavas/dam-valuation/main/llms.txt
+- https://raw.githubusercontent.com/foysavas/dam-valuation/main/skills/dual-anchor-model/SKILL.md
+
+Prompt that works without cloning:
+
+```text
+Read https://raw.githubusercontent.com/foysavas/dam-valuation/main/llms.txt
+and follow the skill it links. Apply the Dual Anchor Model to [company].
+Use cited sources for net income, revenue, growth, the discount rate, and
+market cap. Do not invent missing figures.
+```
+
+In a local checkout, Cursor loads the same skill from `.cursor/skills/dual-anchor-model`. Claude Code loads it from `.claude/skills/dual-anchor-model`. Both are links to the canonical skill. Ask it to apply the Dual Anchor Model and provide next-period net income, next-period revenue, expected growth, a discount rate, and market cap. If a discount rate is omitted, the skill builds one from a Treasury yield, a beta, and an equity risk premium, and labels any assumed component.
+
+The result is a screen, not a price target.
+
 ## Summary
 
 Standard models value growth only after it becomes free cash flow earned above the cost of capital. Markets often price high-growth firms well before that, including when current net income is low or negative.
