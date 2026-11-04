@@ -1,0 +1,65 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+\onehalfspacing
+\hypersetup{colorlinks=true, linkcolor=black, urlcolor=blue}
+
+\title{Choosing the Growth Rate:\\
+What \(g\) Belongs in the Dual Anchor Model}
+\author{Foy Savas, CFA\\ \texttt{foy@sav.as}}
+\date{November 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+The Dual Anchor Model is only as stable as the growth rate put into it. This note specifies that rate. The appropriate \(g\) is the expected growth of revenue at the moment of valuation, over the coming year. When the firm has more than one revenue source, \(g\) is a revenue-weighted buildup of each source's own current growth. A perpetual or terminal rate does not belong in the formula: the model already fades growth through an endogenous decay term. The October 2026 note used rates of this kind in its backtest without stating the rule. This companion states it.
+\end{abstract}
+
+\section{The Rate the Formula Asks For}
+The Dual Anchor Model values a firm as capitalized net income plus a revenue-growth term.\footnote{Foy Savas, \href{Dual_Anchor_Model.pdf}{\textit{Dual Anchor Model (DAM) Valuation: A Closed-Form Valuation Screen for High-Growth Firms}} (October 2026).} Under the reference decay assumption the working formula is
+\begin{equation}
+V_0 = \frac{\mathrm{NI}_1}{r} + \mathrm{Rev}_1 \cdot \frac{g}{r},
+\end{equation}
+where \(\mathrm{NI}_1\) is forward net income, \(\mathrm{Rev}_1\) is the annual revenue base, \(r\) is the discount rate, and \(g\) is a growth rate. The general form, before setting the decay coefficient \(\alpha\) to 1, is
+\begin{equation}
+V_0 = \frac{\mathrm{NI}_1}{r} + \mathrm{Rev}_1 \cdot \frac{g}{r - g + \alpha g}, \qquad \delta(g) = \alpha g.
+\end{equation}
+Negative growth is treated as zero in the revenue term. The formula stays finite when reported growth exceeds the discount rate because the decay removes \(g\) from the denominator at \(\alpha = 1\).
+
+The backtest in that note applied approximate growth rates prevailing near each valuation date. It did not use perpetual rates, faded terminal rates, or multi-year targets. The results---durable compounders typically near \(0.75\)--\(1.15\) times contemporaneous market capitalization, and the clearest bubble episodes near \(0.30\)--\(0.45\) times peak prices---depend on that choice. This note makes the choice explicit. The appropriate \(g\) is growth at the moment. When revenue comes from more than one source, build that same current rate up from the sources.
+
+\section{Growth at the Moment}
+\(g\) is the percentage growth expected in the annual revenue base over the coming year, measured at the valuation date. It is the rate the business is growing now. Company guidance for the coming year is the cleanest consolidated observation. The latest year-over-year rate is a substitute only when it still describes the present mix. \(\mathrm{Rev}_1\) must be the annual base that this \(g\) applies to, and the pairing should be stated. Applying a spike from an earlier regime to today's revenue, or applying a calm long-run rate to a base that is still compounding quickly, breaks the screen.
+
+The decay assumption is why the long-run rate does not belong in the formula. \(\delta(g) = \alpha g\) already fades growth, and at \(\alpha = 1\) it removes \(g\) from the denominator. Inserting a perpetual or terminal \(g\) fades growth a second time and pulls durable compounders below the range the backtest produced. Inserting a multi-year target above current growth does the opposite: it overrides the damping that kept the bubble episodes near \(0.30\)--\(0.45\) times peak prices. Those historical rates were the high rates of the moment, not terminal assumptions. The model, not the analyst, supplies the fade.
+
+\section{Buildup from Revenue Sources}
+A single consolidated rate is the wrong \(g\) when sources are growing differently. The preferred construction is then a revenue-weighted buildup of each source's own growth at the moment:
+\begin{equation}
+g = \sum_i \frac{\mathrm{Rev}_{1,i}}{\mathrm{Rev}_1}\, g_i,
+\label{eq:g-buildup}
+\end{equation}
+where \(\mathrm{Rev}_{1,i}\) is source \(i\)'s revenue in the same base as \(\mathrm{Rev}_1\), and \(g_i\) is that source's expected growth over the coming year. Sources are whatever actually generates the revenue: segments, products, geographies, or a driver pair such as customers and revenue per customer when that is how the source grows. Weights use the revenue in the base, not a projected mix after growth arrives, so a fast source does not receive credit for share it has not yet earned.
+
+A source with negligible revenue in the base has a negligible weight. Pipeline, addressable market, and products that do not yet contribute revenue do not enter \(g\). Declining sources keep a negative \(g_i\) and reduce the blend. If the blended \(g\) is itself negative, the revenue anchor uses zero, as in the main formula. A one-source firm is the same rule with a single weight of one: use that source's growth at the moment.
+
+As an illustration, take \(\mathrm{Rev}_1 = 100\) split across subscriptions (\(60\), \(g_i = 0.18\)), services (\(25\), \(g_i = 0.40\)), and licenses (\(15\), \(g_i = -0.10\)):
+\begin{equation}
+g = 0.60 \times 0.18 + 0.25 \times 0.40 + 0.15 \times (-0.10) = 0.193.
+\end{equation}
+A new product expected to triple, but absent from the current base, adds nothing until it is inside \(\mathrm{Rev}_1\).
+
+\section{Rates That Do Not Belong}
+Do not use a Gordon-style perpetual growth rate, an explicitly faded terminal rate, a multi-year historical compound rate that averages unlike regimes, or a long-term management ambition above the growth the current sources support. Each of those answers a question the formula does not ask. The formula asks how fast the present revenue base is growing, and then damps that rate itself.
+
+\section{Conclusion}
+Put the current expected growth of revenue into the Dual Anchor Model, built up across revenue sources when those sources grow at different rates. Leave the fade to the decay term. The screen is then using the rate its backtest used, and the rate the formula is built to damp.
+
+\end{document}

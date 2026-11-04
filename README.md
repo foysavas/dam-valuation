@@ -1,6 +1,6 @@
 # Dual Anchor Model (DAM) Valuation
 
-A closed-form valuation screen for high-growth firms. The full note is [Dual_Anchor_Model.pdf](Dual_Anchor_Model.pdf). Source is [Dual_Anchor_Model.tex](Dual_Anchor_Model.tex).
+A closed-form valuation screen for high-growth firms. The full note is [Dual_Anchor_Model.pdf](Dual_Anchor_Model.pdf). The companion on which growth rate to use is [Choosing_the_Growth_Rate.pdf](Choosing_the_Growth_Rate.pdf). Sources are [Dual_Anchor_Model.tex](Dual_Anchor_Model.tex) and [Choosing_the_Growth_Rate.tex](Choosing_the_Growth_Rate.tex).
 
 Foy Savas, CFA · October 2026 · [foy@sav.as](mailto:foy@sav.as)
 
@@ -43,6 +43,8 @@ V_0 = \frac{\mathrm{NI}_1}{r} + \mathrm{Rev}_1 \cdot \frac{g}{r}
 \]
 
 The first term is the earnings anchor. The second is the revenue anchor, a multiple of \(g/r\). Negative growth is treated as zero, so contracting revenue never adds a growth premium. The value stays finite even when reported growth exceeds the discount rate.
+
+\(g\) is growth at the moment: expected revenue growth over the coming year. Where sources grow at different rates, build it up as the revenue-weighted sum of each source's own current growth. The decay term already fades \(g\), so a perpetual or terminal rate does not belong in the formula. [Choosing the Growth Rate](Choosing_the_Growth_Rate.pdf) states this choice.
 
 The formula is a screen, not a discounted-cash-flow model. It does not forecast margins, reinvestment, or the fade of excess returns. Raising \(\alpha\) above 1 makes the screen more conservative.
 

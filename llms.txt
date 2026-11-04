@@ -6,6 +6,8 @@ Reference case α = 1, with g and r as decimals. Negative g is set to zero in th
 
 V_0 = NI_1 / r + Rev_1 · g / r
 
+g is expected revenue growth at the moment, over the coming year. When sources differ, g is the revenue-weighted sum of each source's own current growth. It is not a perpetual or terminal rate; the model already fades growth.
+
 Follow the skill for inputs, the general α formula, the output format, and the limits of the screen.
 
 ## Apply
@@ -17,4 +19,6 @@ Follow the skill for inputs, the general α formula, the output format, and the 
 
 - [README](README.md): Summary, backtest pattern, and how to point an agent here.
 - [Dual Anchor Model (PDF)](Dual_Anchor_Model.pdf): Derivation, historical backtest, and comparisons with PEG and Gordon growth.
-- [LaTeX source](Dual_Anchor_Model.tex): Source for the note.
+- [Choosing the Growth Rate (PDF)](Choosing_the_Growth_Rate.pdf): Which g belongs in the model. Current expected revenue growth, or a revenue-source buildup. Not a perpetual rate.
+- [LaTeX source](Dual_Anchor_Model.tex): Source for the main note.
+- [Growth-rate source](Choosing_the_Growth_Rate.tex): Source for the companion note.
